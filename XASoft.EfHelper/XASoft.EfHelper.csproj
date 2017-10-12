@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45;net40</TargetFrameworks>
+    <TargetFrameworks>net45;net40</TargetFrameworks>
     <ApplicationIcon>xa3.ico</ApplicationIcon>
-    <Version>0.0.4</Version>
+    <Version>0.0.8</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>XASoft</Authors>
     <Company>XASoft</Company>
@@ -16,5 +16,9 @@
     <Copyright>XASoft</Copyright>
     <Description>remove data in logically</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.2.0-beta1" />
+  </ItemGroup>
 
 </Project>

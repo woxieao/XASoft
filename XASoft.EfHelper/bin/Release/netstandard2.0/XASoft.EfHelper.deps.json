@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "d5ef1509ab9594c5ee7350d5e7860d93d6b54c43"
+    "signature": "087eb33ecfe86b6aa8c68c2c96723d78c981c7ec"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,10 +9,17 @@
     ".NETStandard,Version=v2.0/": {
       "XASoft.EfHelper/0.0.4": {
         "dependencies": {
+          "EntityFramework": "6.2.0-beta1",
           "NETStandard.Library": "2.0.0"
         },
         "runtime": {
           "XASoft.EfHelper.dll": {}
+        }
+      },
+      "EntityFramework/6.2.0-beta1": {
+        "runtime": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
@@ -28,6 +35,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "EntityFramework/6.2.0-beta1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dzH46zRbtj273BrrRj8FGowxJbI4+u5g5fzAUYx83naa3CSN5mqFqnzZN6SjM8tnPIpUuVx2XHMIcOCEyzTejA==",
+      "path": "entityframework/6.2.0-beta1",
+      "hashPath": "entityframework.6.2.0-beta1.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
