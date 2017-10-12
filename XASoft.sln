@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XASoft", "XASoft\XASoft.csproj", "{D545A6FD-5F15-495C-8351-A459530D002F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfHelper", "EfHelper\EfHelper.csproj", "{44087A4E-61FE-42A3-9C59-E70CC6010C97}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D545A6FD-5F15-495C-8351-A459530D002F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D545A6FD-5F15-495C-8351-A459530D002F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D545A6FD-5F15-495C-8351-A459530D002F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D545A6FD-5F15-495C-8351-A459530D002F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44087A4E-61FE-42A3-9C59-E70CC6010C97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44087A4E-61FE-42A3-9C59-E70CC6010C97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44087A4E-61FE-42A3-9C59-E70CC6010C97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44087A4E-61FE-42A3-9C59-E70CC6010C97}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3877BF2-8A2E-4BC6-9CEC-F8EB4A4017C5}
+	EndGlobalSection
+EndGlobal
