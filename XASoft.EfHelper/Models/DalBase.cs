@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -42,24 +43,29 @@ namespace XASoft.EfHelper.Models
         {
             return CombineLambda(predicate, x => !x.DelFlag);
         }
-        public TSource FirstNotDel(Expression<Func<TSource, bool>> predicate)
+        public TSource First(Expression<Func<TSource, bool>> predicate)
         {
             return Source.First(DelDataFilter(predicate));
         }
-        public TSource FirstOrDefaultNotDel(Expression<Func<TSource, bool>> predicate)
+        public TSource GetById(int id)
+        {
+            return Source.First(i => i.Id == id && !i.DelFlag);
+        }
+        public TSource FirstOrDefault(Expression<Func<TSource, bool>> predicate)
         {
             return Source.FirstOrDefault(DelDataFilter(predicate));
 
         }
-        public IQueryable<TSource> WhereNotDel(Expression<Func<TSource, bool>> predicate)
+
+        public IQueryable<TSource> Where(Expression<Func<TSource, bool>> predicate)
         {
             return Source.Where(DelDataFilter(predicate));
         }
-        public TSource SingleOrDefaultNotDel(Expression<Func<TSource, bool>> predicate)
+        public TSource SingleOrDefault(Expression<Func<TSource, bool>> predicate)
         {
             return Source.SingleOrDefault(DelDataFilter(predicate));
         }
-        public TSource SingleNotDel(Expression<Func<TSource, bool>> predicate)
+        public TSource Single(Expression<Func<TSource, bool>> predicate)
         {
             return Source.Single(DelDataFilter(predicate));
         }
@@ -82,9 +88,21 @@ namespace XASoft.EfHelper.Models
                 TotalCount = Source.Count(i => !i.DelFlag)
             };
         }
-        public void Delete(TSource entity)
+        public void Remove(TSource entity)
         {
-            entity.DelFlag = true;
+            if (entity != null)
+                entity.DelFlag = true;
+        }
+
+        public void RemoveRange(IEnumerable<TSource> entityList)
+        {
+            if (entityList != null)
+            {
+                foreach (var entity in entityList)
+                {
+                    entity.DelFlag = true;
+                }
+            }
         }
     }
 
