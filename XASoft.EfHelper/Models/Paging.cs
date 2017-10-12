@@ -1,7 +1,17 @@
 ﻿namespace XASoft.EfHelper.Models
 {
-    public abstract class Paging
+    public class Paging
     {
+        protected Paging()
+        {
+
+        }
+
+        public Paging(int pageIndex, int pageSize)
+        {
+            PageIndex = pageIndex;
+            PageSize = pageSize;
+        }
         private int _pageIndex;
         private int _pageSize;
 

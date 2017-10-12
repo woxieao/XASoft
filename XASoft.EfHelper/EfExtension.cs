@@ -20,7 +20,7 @@ namespace XASoft.EfHelper
                 return node == _from ? _to : base.Visit(node);
             }
         }
-        public static Expression<Func<TSource, bool>> CombineLambda<TSource>(this Expression<Func<TSource, bool>> predicate0, Expression<Func<TSource, bool>> predicate1)
+        private static Expression<Func<TSource, bool>> CombineLambda<TSource>(this Expression<Func<TSource, bool>> predicate0, Expression<Func<TSource, bool>> predicate1)
         {
             return Expression.Lambda<Func<TSource, bool>>(Expression.AndAlso(
           new SwapVisitor(predicate0.Parameters[0], predicate1.Parameters[0]).Visit(predicate0.Body),
@@ -51,13 +51,23 @@ namespace XASoft.EfHelper
         {
             return source.Single(predicate.DelDataFilter());
         }
-        public static PagingData<TSource> GetList<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, Paging paging) where TSource : DbBase
+        public static PagingData<TSource> GetList<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, int pageIndex, int pageSize) where TSource : DbBase
         {
+            var paging = new Paging(pageIndex, pageSize);
             var p = predicate.DelDataFilter();
             return new PagingData<TSource>
             {
                 List = source.Where(p).OrderByDescending(i => i.Id).Skip(paging.Skip).Take(paging.PageSize),
                 TotalCount = source.Count(p)
+            };
+        }
+        public static PagingData<TSource> GetList<TSource>(this IQueryable<TSource> source, int pageIndex, int pageSize) where TSource : DbBase
+        {
+            var paging = new Paging(pageIndex, pageSize);
+            return new PagingData<TSource>
+            {
+                List = source.OrderByDescending(i => i.Id).Skip(paging.Skip).Take(paging.PageSize),
+                TotalCount = source.Count()
             };
         }
         public static void Delete<TSource>(TSource entity) where TSource : DbBase
