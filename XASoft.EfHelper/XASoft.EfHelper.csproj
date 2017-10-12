@@ -1,7 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net45;net40</TargetFrameworks>
+    <ApplicationIcon>xa3.ico</ApplicationIcon>
+    <Version>0.0.2</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>XASoft</Authors>
+    <Company>XASoft</Company>
+    <Product>XASoft</Product>
+    <PackageIconUrl>https://raw.githubusercontent.com/woxieao/XASoft/master/XA.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/woxieao/XASoft/tree/master/XASoft.EfHelper</RepositoryUrl>
+    <RepositoryType>C#</RepositoryType>
+    <PackageTags>EF</PackageTags>
+    <PackageProjectUrl>https://github.com/woxieao/XASoft/tree/master/XASoft.EfHelper</PackageProjectUrl>
+    <Copyright>XASoft</Copyright>
+    <Description>remove data in logically</Description>
   </PropertyGroup>
 
 </Project>
