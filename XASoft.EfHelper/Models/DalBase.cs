@@ -8,49 +8,10 @@ using System.Reflection;
 namespace XASoft.EfHelper.Models
 {
 
-    #region ChildDalBase
-
-    public abstract class IdIntDalBase<TSource, TEntity> : DalBase<TSource, TEntity, int>
-        where TSource : DbBase<int>
+    public abstract class DalBase<TSource, TEntity> : IDisposable
+        where TSource : DbBase
         where TEntity : DbContext
-    {
-        protected IdIntDalBase(TEntity db) : base(db)
-        {
-        }
-    }
 
-    public abstract class IdStringDalBase<TSource, TEntity> : DalBase<TSource, TEntity, string>
-        where TSource : DbBase<string>
-        where TEntity : DbContext
-    {
-        protected IdStringDalBase(TEntity db) : base(db)
-        {
-        }
-    }
-
-    public abstract class IdGuidDalBase<TSource, TEntity> : DalBase<TSource, TEntity, Guid>
-        where TSource : DbBase<Guid>
-        where TEntity : DbContext
-    {
-        protected IdGuidDalBase(TEntity db) : base(db)
-        {
-        }
-    }
-
-    public abstract class IdLongDalBase<TSource, TEntity> : DalBase<TSource, TEntity, long>
-        where TSource : DbBase<long>
-        where TEntity : DbContext
-    {
-        protected IdLongDalBase(TEntity db) : base(db)
-        {
-        }
-    }
-
-    #endregion
-
-    public abstract class DalBase<TSource, TEntity, TId> : IDisposable
-        where TSource : DbBase<TId>
-        where TEntity : DbContext
     {
         protected readonly IQueryable<TSource> Source;
         protected readonly TEntity Db;
@@ -96,9 +57,9 @@ namespace XASoft.EfHelper.Models
             return Source.First(DelDataFilter(predicate));
         }
 
-        public TSource GetById(TId id)
+        public TSource GetById(int id)
         {
-            return Source.First(i => i.Id.Equals(id) && !i.DelFlag);
+            return Source.First(i => i.Id == id && !i.DelFlag);
         }
 
         public TSource FirstOrDefault(Expression<Func<TSource, bool>> predicate)
@@ -160,13 +121,29 @@ namespace XASoft.EfHelper.Models
             }
         }
 
-        public void Update(TId id, TSource data2Update)
+        public void UpdateById(int id, TSource data2Update, params string[] fieldNotUpdate)
         {
             var entity = GetById(id);
-            var properties = typeof(TSource).GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+            var properties = typeof(TSource).GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+                .Where(i => !fieldNotUpdate.Contains(i.Name)).ToList();
             foreach (var prop in properties)
             {
                 prop.SetValue(entity, prop.GetValue(data2Update, null), null);
+            }
+        }
+        public void UpdateById(int id, object data2Update, params string[] fieldNotUpdate)
+        {
+            var entity = GetById(id);
+            var properties = data2Update.GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+            var entityProperties = typeof(TSource).GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+                .Where(i => !fieldNotUpdate.Contains(i.Name)).ToList();
+            foreach (var prop in properties)
+            {
+                var entityProp = entityProperties.FirstOrDefault(i => i.Name == prop.Name);
+                if (entityProp != null)
+                {
+                    entityProp.SetValue(entity, prop.GetValue(data2Update, null), null);
+                }
             }
         }
 
