@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net45;net40</TargetFrameworks>
     <ApplicationIcon>xa3.ico</ApplicationIcon>
-    <Version>0.1.0</Version>
+    <Version>0.1.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>XASoft</Authors>
     <Company>XASoft</Company>

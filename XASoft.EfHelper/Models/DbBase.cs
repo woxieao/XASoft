@@ -9,8 +9,8 @@ namespace XASoft.EfHelper.Models
             DelFlag = false;
             CreateDate = DateTime.Now;
         }
-        public int Id { get; set; }
-        public bool DelFlag { get; set; }
-        public DateTime CreateDate { get; set; }
+        public int Id { get; internal set; }
+        public bool DelFlag { get; internal set; }
+        public DateTime CreateDate { get; internal set; }
     }
 }

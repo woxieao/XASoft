@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 namespace XASoft.EfHelper.Models
 {
 
-    public abstract class DalBase<TSource, TEntity>
+    public abstract class DalBase<TSource, TEntity> : IDisposable
     where TSource : DbBase
         where TEntity : DbContext
     {
@@ -103,6 +103,11 @@ namespace XASoft.EfHelper.Models
                     entity.DelFlag = true;
                 }
             }
+        }
+    
+        public void Dispose()
+        {
+            Db.Dispose();
         }
     }
 
