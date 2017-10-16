@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net45;net40</TargetFrameworks>
-    <ApplicationIcon>xa3.ico</ApplicationIcon>
-    <Version>0.1.7</Version>
+    <ApplicationIcon>xa.ico</ApplicationIcon>
+    <Version>0.1.9</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>XASoft</Authors>
     <Company>XASoft</Company>

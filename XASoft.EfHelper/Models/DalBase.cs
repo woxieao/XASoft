@@ -84,7 +84,7 @@ namespace XASoft.EfHelper.Models
 
         public PagingData<TSource> GetList(Expression<Func<TSource, bool>> predicate, int pageIndex, int pageSize)
         {
-            var paging = new Paging(pageIndex, pageSize);
+            var paging = new DbMsg(pageIndex, pageSize);
             var p = DelDataFilter(predicate);
             return new PagingData<TSource>
             {
@@ -95,7 +95,7 @@ namespace XASoft.EfHelper.Models
 
         public PagingData<TSource> GetList(int pageIndex, int pageSize)
         {
-            var paging = new Paging(pageIndex, pageSize);
+            var paging = new DbMsg(pageIndex, pageSize);
             return new PagingData<TSource>
             {
                 List =
@@ -108,6 +108,12 @@ namespace XASoft.EfHelper.Models
         {
             if (entity != null)
                 entity.DelFlag = true;
+        }
+
+        public void Remove(int id)
+        {
+            var entity = GetById(id);
+            entity.DelFlag = true;
         }
 
         public void RemoveRange(IEnumerable<TSource> entityList)
@@ -131,6 +137,12 @@ namespace XASoft.EfHelper.Models
                 prop.SetValue(entity, prop.GetValue(data2Update, null), null);
             }
         }
+        /// <summary>
+        /// update entity 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="data2Update">eg:{Fideld0="foo",Fideld1="bar"}</param>
+        /// <param name="fieldNotUpdate"></param>
         public void UpdateById(int id, object data2Update, params string[] fieldNotUpdate)
         {
             var entity = GetById(id);
@@ -147,6 +159,10 @@ namespace XASoft.EfHelper.Models
             }
         }
 
+        public void SaveChanges()
+        {
+            Db.SaveChanges();
+        }
         public void Dispose()
         {
             Db.Dispose();
