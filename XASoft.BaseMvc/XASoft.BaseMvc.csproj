@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net45</TargetFramework>
+    <ApplicationIcon>../xa.ico</ApplicationIcon>
+    <Version>0.0.4</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>XASoft</Authors>
+    <Company>XASoft</Company>
+    <Product>XASoft</Product>
+    <PackageIconUrl>https://raw.githubusercontent.com/woxieao/XASoft/master/XA.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/woxieao/XASoft/tree/master/</RepositoryUrl>
+    <RepositoryType>C#</RepositoryType>
+    <PackageTags>MVC</PackageTags>
+    <PackageProjectUrl>https://github.com/woxieao/XASoft/tree/master/XASoft</PackageProjectUrl>
+    <Copyright>XASoft</Copyright>
+    <Description>Override Mvc Controller</Description>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageReference Include="Microsoft.AspNet.Mvc">
+      <Version>5.2.3</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="EntityFramework" Version="6.2.0-beta1" />
+    <PackageReference Include="XASoft.CommonModel" Version="0.0.1" />
+    </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web" />
+    </ItemGroup>
+</Project>

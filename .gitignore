@@ -7,3 +7,10 @@ XASoft.EfHelper/bin/
 XASoft.EfHelper/bin/
 XASoft.ExceptionHelper/bin/
 XASoft.ExceptionHelper/obj
+packages/
+XASoft.BaseMvc/bin/
+XASoft.BaseMvc/obj/
+XASoft.CommonModel/obj/
+XASoft.CommonModel/bin
+XASoft.Extensions/bin/
+XASoft.Extensions/obj/

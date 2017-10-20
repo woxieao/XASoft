@@ -2,24 +2,22 @@
   <PropertyGroup>
     <TargetFrameworks>net45;net40</TargetFrameworks>
     <ApplicationIcon>../xa.ico</ApplicationIcon>
-    <Version>0.2.4</Version>
+    <Version>0.0.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>XASoft</Authors>
     <Company>XASoft</Company>
     <Product>XASoft</Product>
     <PackageIconUrl>https://raw.githubusercontent.com/woxieao/XASoft/master/XA.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/woxieao/XASoft/tree/master</RepositoryUrl>
+    <RepositoryUrl>https://github.com/woxieao/XASoft/tree/master/</RepositoryUrl>
     <RepositoryType>C#</RepositoryType>
-    <PackageTags>EF</PackageTags>
+    <PackageTags>Extensions</PackageTags>
     <PackageProjectUrl>https://github.com/woxieao/XASoft/tree/master</PackageProjectUrl>
     <Copyright>XASoft</Copyright>
-    <Description>remove data in logically</Description>
+    <Description>some powerful extensions</Description>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="EntityFramework" Version="6.2.0-beta1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="XASoft.CommonModel" Version="0.0.1" />
   </ItemGroup>
-
 
 </Project>

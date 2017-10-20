@@ -4,9 +4,26 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using XASoft.CommonModel.PagingModel;
+using XASoft.EfHelper.Models.Msg;
 
 namespace XASoft.EfHelper.Models
 {
+    internal class SwapVisitor : ExpressionVisitor
+    {
+        private readonly Expression _from, _to;
+
+        public SwapVisitor(Expression from, Expression to)
+        {
+            this._from = from;
+            this._to = to;
+        }
+
+        public override Expression Visit(Expression node)
+        {
+            return node == _from ? _to : base.Visit(node);
+        }
+    }
 
     public abstract class DalBase<TSource, TEntity> : IDisposable
         where TSource : DbBase
@@ -20,23 +37,6 @@ namespace XASoft.EfHelper.Models
         {
             Db = db;
             Source = db.Set<TSource>();
-        }
-
-
-        internal class SwapVisitor : ExpressionVisitor
-        {
-            private readonly Expression _from, _to;
-
-            public SwapVisitor(Expression from, Expression to)
-            {
-                this._from = from;
-                this._to = to;
-            }
-
-            public override Expression Visit(Expression node)
-            {
-                return node == _from ? _to : base.Visit(node);
-            }
         }
 
         private Expression<Func<TSource, bool>> CombineLambda(Expression<Func<TSource, bool>> predicate0,
@@ -54,12 +54,28 @@ namespace XASoft.EfHelper.Models
 
         public TSource First(Expression<Func<TSource, bool>> predicate)
         {
-            return Source.First(DelDataFilter(predicate));
+            var entity = Source.First(DelDataFilter(predicate));
+            if (entity == null)
+            {
+                throw new DbMsgException("object not found");
+            }
+            else
+            {
+                return entity;
+            }
         }
 
         public TSource GetById(int id)
         {
-            return Source.First(i => i.Id == id && !i.DelFlag);
+            var entity = Source.FirstOrDefault(i => i.Id == id && !i.DelFlag);
+            if (entity == null)
+            {
+                throw new DbMsgException($"Id [{id}] not found");
+            }
+            else
+            {
+                return entity;
+            }
         }
 
         public TSource FirstOrDefault(Expression<Func<TSource, bool>> predicate)
@@ -84,23 +100,30 @@ namespace XASoft.EfHelper.Models
 
         public PagingData<TSource> GetList(Expression<Func<TSource, bool>> predicate, int pageIndex, int pageSize)
         {
-            var paging = new DbMsg(pageIndex, pageSize);
+            var paging = new Paging(pageIndex, pageSize);
             var p = DelDataFilter(predicate);
+            var totalCount = Source.Count(p);
             return new PagingData<TSource>
             {
                 List = Source.Where(p).OrderByDescending(i => i.Id).Skip(paging.Skip).Take(paging.PageSize),
-                TotalCount = Source.Count(p)
+                TotalCount = totalCount,
+                PageSize = paging.PageSize,
+                PageIndex = paging.PageIndex,
+                PageCount = (int)Math.Ceiling(totalCount / (double)paging.PageSize)
             };
         }
 
         public PagingData<TSource> GetList(int pageIndex, int pageSize)
         {
-            var paging = new DbMsg(pageIndex, pageSize);
+            var paging = new Paging(pageIndex, pageSize);
+            var totalCount = Source.Count(i => !i.DelFlag);
             return new PagingData<TSource>
             {
-                List =
-                    Source.Where(i => !i.DelFlag).OrderByDescending(i => i.Id).Skip(paging.Skip).Take(paging.PageSize),
-                TotalCount = Source.Count(i => !i.DelFlag)
+                List = Source.Where(i => !i.DelFlag).OrderByDescending(i => i.Id).Skip(paging.Skip).Take(paging.PageSize),
+                TotalCount = totalCount,
+                PageSize = paging.PageSize,
+                PageIndex = paging.PageIndex,
+                PageCount = (int)Math.Ceiling(totalCount / (double)paging.PageSize)
             };
         }
 
@@ -142,13 +165,12 @@ namespace XASoft.EfHelper.Models
         /// </summary>
         /// <param name="id"></param>
         /// <param name="data2Update">eg:{Fideld0="foo",Fideld1="bar"}</param>
-        /// <param name="fieldNotUpdate"></param>
-        public void UpdateById(int id, object data2Update, params string[] fieldNotUpdate)
+        public void UpdateById(int id, object data2Update)
         {
             var entity = GetById(id);
             var properties = data2Update.GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
             var entityProperties = typeof(TSource).GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
-                .Where(i => !fieldNotUpdate.Contains(i.Name)).ToList();
+                .ToList();
             foreach (var prop in properties)
             {
                 var entityProp = entityProperties.FirstOrDefault(i => i.Name == prop.Name);

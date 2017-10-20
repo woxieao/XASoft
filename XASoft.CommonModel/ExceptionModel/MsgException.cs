@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XASoft.ExceptionHelper
+namespace XASoft.CommonModel.ExceptionModel
 {
     public class MsgException : Exception
     {

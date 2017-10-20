@@ -1,13 +1,13 @@
-﻿namespace XASoft.EfHelper.Models
+﻿namespace XASoft.CommonModel.PagingModel
 {
-    public class DbMsg
+    public class Paging
     {
-        protected DbMsg()
+        protected Paging()
         {
 
         }
 
-        public DbMsg(int pageIndex, int pageSize)
+        public Paging(int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             PageSize = pageSize;
