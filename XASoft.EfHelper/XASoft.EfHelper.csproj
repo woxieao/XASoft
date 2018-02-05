@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net45;net40</TargetFrameworks>
     <ApplicationIcon>../xa.ico</ApplicationIcon>
-    <Version>0.2.4</Version>
+    <Version>0.2.7</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>XASoft</Authors>
     <Company>XASoft</Company>
@@ -20,6 +20,4 @@
     <PackageReference Include="EntityFramework" Version="6.2.0-beta1" />
     <PackageReference Include="XASoft.CommonModel" Version="0.0.1" />
   </ItemGroup>
-
-
 </Project>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -15,7 +14,8 @@ namespace XASoft.BaseMvc
      
         public static void HideUnknownException(bool isHide)
         {
-            _hideUnknownException = isHide;
+            
+               _hideUnknownException = isHide;
         }
         public static void SetLog2DbAct(Action<RequestLog> log2DbAct)
         {
@@ -63,7 +63,7 @@ namespace XASoft.BaseMvc
                 var resultData = JsonConvert.SerializeObject(_result, _settings);
                 response.Write(resultData);
                 response.End();
-                LogRequest2Db(context, resultData, true, _log2DbAct);
+                LogRequest2Db(context, resultData, true, _log2DbAct); 
             }
 
             public Ok()
@@ -101,10 +101,6 @@ namespace XASoft.BaseMvc
                 Response.ContentType = "application/json";
                 Response.StatusCode = 200;
                 throw ex;
-            }
-            catch (DbEntityValidationException e)
-            {
-                result.Msg = String.Join("\n", e.EntityValidationErrors.Select(i => String.Join("\n", i.ValidationErrors.Select(x => x.ErrorMessage))));
             }
             catch (MsgException)
             {

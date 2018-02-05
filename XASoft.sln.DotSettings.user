@@ -4,4 +4,5 @@
   &lt;Assembly Path="C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\woxieao\.nuget\packages\microsoft.aspnet.mvc\5.2.3\lib\net45\System.Web.Mvc.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\woxieao\.nuget\packages\xasoft.commonmodel\0.0.1\lib\net45\XASoft.CommonModel.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Windows\Microsoft.NET\Framework\v4.0.30319\System.Core.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

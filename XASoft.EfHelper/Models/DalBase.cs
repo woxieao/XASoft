@@ -25,13 +25,14 @@ namespace XASoft.EfHelper.Models
         }
     }
 
-    public abstract class DalBase<TSource, TEntity> : IDisposable
+    public abstract class DalBase<TSource, TEntity>
         where TSource : DbBase
         where TEntity : DbContext
 
     {
         protected readonly IQueryable<TSource> Source;
         protected readonly TEntity Db;
+
 
         protected DalBase(TEntity db)
         {
@@ -67,7 +68,7 @@ namespace XASoft.EfHelper.Models
 
         public TSource GetById(int id)
         {
-            var entity = Source.FirstOrDefault(i => i.Id == id && !i.DelFlag);
+            var entity = FirstOrDefault(i => i.Id == id);
             if (entity == null)
             {
                 throw new DbMsgException($"Id [{id}] not found");
@@ -160,6 +161,7 @@ namespace XASoft.EfHelper.Models
                 prop.SetValue(entity, prop.GetValue(data2Update, null), null);
             }
         }
+        
         /// <summary>
         /// update entity 
         /// </summary>
@@ -184,10 +186,6 @@ namespace XASoft.EfHelper.Models
         public void SaveChanges()
         {
             Db.SaveChanges();
-        }
-        public void Dispose()
-        {
-            Db.Dispose();
         }
     }
 }
