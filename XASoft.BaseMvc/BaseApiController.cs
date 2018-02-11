@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -11,11 +10,74 @@ namespace XASoft.BaseMvc
     {
         private static bool _hideUnknownException = true;
         private static Action<RequestLog> _log2DbAct = i => { };
-     
+
+        #region Ok
+        public class OkResult : ActionResult
+        {
+            private readonly JsonSerializerSettings _settings;
+            private readonly OkData _result = new OkData
+            {
+                Status = OkData.StatusCode.Success,
+                Msg = string.Empty
+            };
+
+            public override void ExecuteResult(ControllerContext context)
+            {
+                var response = context.HttpContext.Response;
+                response.Clear();
+                response.TrySkipIisCustomErrors = true;
+                response.StatusCode = (int)HttpStatusCode.OK;
+                response.ContentType = "application/json";
+                var resultData = JsonConvert.SerializeObject(_result, _settings);
+                response.Write(resultData);
+                response.End();
+                LogRequest2Db(context, resultData, true, _log2DbAct);
+            }
+
+            public OkResult()
+            {
+                _settings = new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy-MM-dd"
+                };
+            }
+            public OkResult(object data) : this()
+            {
+                _result.Data = data;
+            }
+            public OkResult(OkData customerData) : this()
+            {
+                _result = customerData;
+            }
+            public OkResult(object data, JsonSerializerSettings jsonSerializerSettings) : this(data)
+            {
+                _settings = jsonSerializerSettings;
+            }
+        }
+        public OkResult Ok()
+        {
+            return new OkResult();
+        }
+        public OkResult Ok(object data, JsonSerializerSettings jsonSerializerSettings)
+        {
+            return new OkResult(data, jsonSerializerSettings);
+        }
+        public OkResult Ok(object data)
+        {
+            return new OkResult(data);
+        }
+        public OkResult Ok(OkData customerData)
+        {
+            return new OkResult(customerData);
+        }
+
+        #endregion
+
+        #region  Funcs
+
         public static void HideUnknownException(bool isHide)
         {
-            
-               _hideUnknownException = isHide;
+            _hideUnknownException = isHide;
         }
         public static void SetLog2DbAct(Action<RequestLog> log2DbAct)
         {
@@ -44,55 +106,17 @@ namespace XASoft.BaseMvc
                 //do nothing
             }
         }
-        public class Ok : ActionResult
-        {
-            private readonly JsonSerializerSettings _settings;
-            private readonly OkResult _result = new OkResult
-            {
-                Status = OkResult.StatusCode.Success,
-                Msg = String.Empty
-            };
 
-            public override void ExecuteResult(ControllerContext context)
-            {
-                var response = context.HttpContext.Response;
-                response.Clear();
-                response.TrySkipIisCustomErrors = true;
-                response.StatusCode = (int)HttpStatusCode.OK;
-                response.ContentType = "application/json";
-                var resultData = JsonConvert.SerializeObject(_result, _settings);
-                response.Write(resultData);
-                response.End();
-                LogRequest2Db(context, resultData, true, _log2DbAct); 
-            }
+        #endregion
 
-            public Ok()
-            {
-                _settings = new JsonSerializerSettings()
-                {
-                    DateFormatString = "yyyy-MM-dd"
-                };
-            }
-            public Ok(object data) : this()
-            {
-                _result.Data = data;
-            }
-            public Ok(OkResult customerData) : this()
-            {
-                _result = customerData;
-            }
-            public Ok(object data, JsonSerializerSettings jsonSerializerSettings) : this(data)
-            {
-                _settings = jsonSerializerSettings;
-            }
-        }
+        #region Override Method
 
         protected override void OnException(ExceptionContext filterContext)
         {
             var ex = filterContext.Exception.GetBaseException();
-            var result = new OkResult
+            var result = new OkData
             {
-                Status = OkResult.StatusCode.Error,
+                Status = OkData.StatusCode.Error,
                 Data = null,
             };
             try
@@ -104,6 +128,11 @@ namespace XASoft.BaseMvc
             }
             catch (MsgException)
             {
+                result.Msg = ex.Message;
+            }
+            catch (AuthException)
+            {
+                result.Status = OkData.StatusCode.LoggedOut;
                 result.Msg = ex.Message;
             }
             catch (Exception)
@@ -119,5 +148,6 @@ namespace XASoft.BaseMvc
                 LogRequest2Db(filterContext, resultData, false, _log2DbAct);
             }
         }
+        #endregion
     }
 }

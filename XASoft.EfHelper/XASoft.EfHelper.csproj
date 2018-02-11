@@ -18,6 +18,6 @@
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.2.0-beta1" />
-    <PackageReference Include="XASoft.CommonModel" Version="0.0.1" />
+    <PackageReference Include="XASoft.CommonModel" Version="0.0.2" />
   </ItemGroup>
 </Project>

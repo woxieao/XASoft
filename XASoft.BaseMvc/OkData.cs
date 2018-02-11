@@ -1,6 +1,6 @@
 ﻿namespace XASoft.BaseMvc
 {
-    public sealed class OkResult
+    public  sealed class OkData
     {
         public enum StatusCode
         {

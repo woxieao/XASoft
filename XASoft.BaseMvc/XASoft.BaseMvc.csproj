@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
     <ApplicationIcon>../xa.ico</ApplicationIcon>
-    <Version>0.0.6</Version>
+    <Version>0.0.8</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>XASoft</Authors>
     <Company>XASoft</Company>
@@ -22,7 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="XASoft.CommonModel" Version="0.0.1" />
+    <PackageReference Include="XASoft.CommonModel" Version="0.0.2" />
     </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web" />
