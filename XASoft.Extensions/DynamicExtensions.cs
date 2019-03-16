@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using XASoft.CommonModel.PagingModel;
 
@@ -9,18 +8,13 @@ namespace XASoft.Extensions
 {
     public static class DynamicExtensions
     {
-        private static JObject ToJobj<T>(this T source)
-        {
-            var serialized = JsonConvert.SerializeObject(source);
-            return JObject.Parse(serialized);
-        }
         private static void Copy2Dynamic<T>(T sourceData, IDictionary<string, object> resultRef) where T : class
         {
             if (sourceData == null)
             {
                 return;
             }
-            foreach (var pi in sourceData.ToJobj().Properties())
+            foreach (var pi in JObject.FromObject(sourceData).Properties())
             {
                 resultRef[pi.Name] = pi.Value;
             }
@@ -42,7 +36,7 @@ namespace XASoft.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="sourceData">sourceData</param>
         /// <returns>new dynamic object not reference sourceData</returns>
-        public static IDictionary<string, object> ToDynamic<T>(this T sourceData) where T : class
+        public static dynamic ToDynamic<T>(this T sourceData) where T : class
         {
             IDictionary<string, object> result = new ExpandoObject();
             Copy2Dynamic(sourceData, result);
@@ -57,7 +51,7 @@ namespace XASoft.Extensions
         /// <param name="sourceData">sourceData</param>
         /// <param name="combineVal">combineValue</param>
         /// <returns>new dynamic object not reference sourceData</returns>
-        public static IDictionary<string, object> ToDynamic<T0, T1>(this T0 sourceData, T1 combineVal)
+        public static dynamic ToDynamic<T0, T1>(this T0 sourceData, T1 combineVal)
             where T0 : class
             where T1 : class
         {
@@ -67,7 +61,7 @@ namespace XASoft.Extensions
             return result;
         }
 
-        public static IDictionary<string, object> ToDynamic<T0, T1>(this T0 sourceData, Func<T0, T1> combineValFunc)
+        public static dynamic ToDynamic<T0, T1>(this T0 sourceData, Func<T0, T1> combineValFunc)
             where T0 : class
             where T1 : class
         {
@@ -77,7 +71,7 @@ namespace XASoft.Extensions
             return result;
         }
 
-        public static IDictionary<string, object> ToDynamic<T0, T1, T2>(this T0 sourceData, T1 combineVal0, T2 combineVal1)
+        public static dynamic ToDynamic<T0, T1, T2>(this T0 sourceData, T1 combineVal0, T2 combineVal1)
             where T0 : class
             where T1 : class
             where T2 : class
@@ -90,24 +84,24 @@ namespace XASoft.Extensions
         }
 
 
-        public static IEnumerable<IDictionary<string, object>> ToDynamicList<T0, T1>(this IEnumerable<T0> sourceDataList, Func<T0, T1> func)
+        public static IEnumerable<dynamic> ToDynamicList<T0, T1>(this IEnumerable<T0> sourceDataList, Func<T0, T1> func)
             where T0 : class
             where T1 : class
         {
             var resultList = new List<IDictionary<string, object>>();
             foreach (var sourceData in sourceDataList)
             {
-                resultList.Add(sourceData.ToDynamic(func));
+                resultList.Add((IDictionary<string, object>)sourceData.ToDynamic(func));
             }
             return resultList;
         }
 
-        public static PagingData<IDictionary<string, object>> ToDynamicPagingData<T0, T1>(this PagingData<T0> sourceDataList, Func<T0, T1> func)
+        public static PagingData<dynamic> ToDynamicPagingData<T0, T1>(this PagingData<T0> sourceDataList, Func<T0, T1> func)
             where T0 : class
             where T1 : class
         {
             var resultList = sourceDataList.List.ToDynamicList(func);
-            return new PagingData<IDictionary<string, object>>
+            return new PagingData<dynamic>
             {
                 PageCount = sourceDataList.PageCount,
                 PageSize = sourceDataList.PageSize,

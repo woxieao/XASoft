@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net45;net40</TargetFrameworks>
     <ApplicationIcon>../xa.ico</ApplicationIcon>
-    <Version>0.0.4</Version>
+    <Version>0.0.6</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>XASoft</Authors>
     <Company>XASoft</Company>
@@ -20,6 +20,7 @@
     <PackageReference Include="XASoft.CommonModel" Version="0.0.2" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Runtime.Caching" />
   </ItemGroup>
 

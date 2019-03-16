@@ -15,7 +15,7 @@ namespace XASoft.EfHelper.Models
         /// and in this case,you need write your own method [GetById]/[UpdateById]
         /// </summary>
         public int Id { get; set; }
-        public bool DelFlag { get; internal set; }
-        public DateTime CreateDate { get; internal set; }
+        public bool DelFlag { get; set; }
+        public DateTime CreateDate { get; set; }
     }
 }
