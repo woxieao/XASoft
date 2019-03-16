@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net45;net40</TargetFrameworks>
     <ApplicationIcon>../xa.ico</ApplicationIcon>
-    <Version>0.0.6</Version>
+    <Version>0.0.8</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>XASoft</Authors>
     <Company>XASoft</Company>
